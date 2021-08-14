@@ -1,6 +1,7 @@
 package de.zettos.coinsapi;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 
 import java.sql.*;
 import java.text.MessageFormat;
@@ -31,16 +32,17 @@ class MySQL {
         this.update(query);
     }
 
+    @SneakyThrows
     protected final void connect(Runnable runnable) {
         String url = MessageFormat.format("jdbc:mysql://{0}:{1}/{2}", this.host, String.valueOf(this.port).replace(".", ""), this.database);
         try {
-            this.connection = (Connection) DriverManager.getConnection(url + "?autoReconnect=true", username, password);
+
+            this.connection =  DriverManager.getConnection(url + "?autoReconnect=true", username, password);
             runnable.run();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
-
     protected final void disconnect() {
         if (this.connection != null) {
             try {
