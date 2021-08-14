@@ -21,6 +21,7 @@ public class CoinsAPI {
     public void connect(String host, int port, String database, String username, String password){
         mySQL.setCredentials(host,port,database,username,password);
         mySQL.connect(() -> {
+
             mySQL.createTable(this.tableName, "UUID Text, "+this.type+" LONG");
         });
     }
